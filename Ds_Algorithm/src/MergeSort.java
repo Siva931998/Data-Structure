@@ -1,56 +1,65 @@
 
 public class MergeSort {
-	void mergesort(int arr[],int l,int m,int r) {
-		int n1= l-m+1;
-		int n2= r-m;
-		int s[] = new int[n1];
-		int k[] = new int[n2];
-		
-		for(int i=0;i<n1;i++)
-			s[i]= arr[l+i];
-		for(int j=0;j<n2;j++)
-			k[j]= arr[m+1+j];
-		
-		int i=0 ,j=0;
-		int n=l;
-		while(i<n1 && j<n2) {
-			if(s[i]<=k[j]) {
-				arr[n]=s[i];
+	void mergesort(int arr[], int start, int mid, int end) {
+		int n1 = mid - start + 1;
+		int n2 = end - mid;
+		int left[] = new int[n1];
+		int right[] = new int[n2];
+		// copy the array to temp
+		for (int i = 0; i < n1; i++)
+			left[i] = arr[start + i];
+		for (int j = 0; j < n2; j++)
+			right[j] = arr[mid + 1 + j];
+
+		int i = 0, j = 0;
+		int k = start;
+		while (i < n1 && j < n2) {
+			if (left[i] <= right[j]) {
+				arr[k] = left[i];
 				i++;
-			}else
-			{
-				arr[n]=k[j];
+			} else {
+				arr[k] = right[j];
 				j++;
 			}
-			n++;
+			k++;
 		}
-		while(i<n1) {
-			arr[n]=s[i];
+		while (i < n1) {
+			arr[k] = left[i];
 			i++;
-			n++;
+			k++;
 		}
-		while(j<n2) {
-			arr[n]=k[j];
+		while (j < n2) {
+			arr[k] = right[j];
 			j++;
-			n++;
+			k++;
 		}
 
 	}
-	void sort(int arr[],int l,int r) {
-		if(l<r) {
-			int m =(l+r)/2;
-			sort(arr,l,m);
-			sort(arr,m,r);
-			mergesort(arr,l,m,r);
-			
-			
+
+	void Msort(int arr[], int start, int end) {
+		if (start < end) {
+			int mid = (start + end) / 2;
+			Msort(arr, start, mid);
+			Msort(arr, mid + 1, end);
+			mergesort(arr, start, mid, end);
 		}
 	}
-public static void main(String[] args) {
-	int[] arr= {3,5,8,2,9,1,4};
-    MergeSort ms= new MergeSort();
-    System.out.println("unsorted of element"+ arr);
-   
-    
-}
+
+	void printarray(int arr[], int n) {
+		for (int i = 0; i < n; i++) {
+			System.out.print(arr[i] + " ");
+		}
+	}
+
+	public static void main(String args[]) {
+		int[] arr = { 3, 5, 8, 2, 9, 1, 4 };
+		int n = arr.length;
+		MergeSort ms = new MergeSort();
+		System.out.println("\nBefore sorting array elements are - ");
+		ms.printarray(arr, n - 1);
+		ms.Msort(arr, 0, n - 1);
+		System.out.println("\nAfter sorting array elements are - ");
+		ms.printarray(arr, n - 1);
+
+	}
 }
